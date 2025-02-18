@@ -9,8 +9,9 @@ export function getHeaderType(typeArgumentNodes: NodeArray<TypeNode> | undefined
     return undefined;
   }
 
-  const candidate = new TypeResolver(typeArgumentNodes[index], metadataGenerator).resolve();
+  let candidate = new TypeResolver(typeArgumentNodes[index], metadataGenerator).resolve();
 
+  if (candidate.dataType === 'refAlias') candidate = candidate.type;
   if (candidate && isSupportedHeaderDataType(candidate)) {
     return candidate;
   } else if (candidate) {
